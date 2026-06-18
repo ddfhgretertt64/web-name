@@ -58,7 +58,6 @@ body{
     margin-bottom:20px;
 }
 
-.copy-btn,
 .change-btn{
     width:100%;
     border:none;
@@ -68,28 +67,12 @@ body{
     font-weight:600;
     cursor:pointer;
     color:white;
+    background:#16a34a;
     transition:.2s;
 }
 
-.copy-btn{
-    background:#3b82f6;
-}
-
-.change-btn{
-    background:#16a34a;
-    margin-top:10px;
-}
-
-.copy-btn:active,
 .change-btn:active{
     transform:scale(.98);
-}
-
-.status{
-    margin-top:12px;
-    color:#22c55e;
-    font-size:14px;
-    height:18px;
 }
 
 @media (max-width:480px){
@@ -107,7 +90,6 @@ body{
         padding:16px;
     }
 
-    .copy-btn,
     .change-btn{
         font-size:17px;
         padding:15px;
@@ -128,43 +110,13 @@ body{
         {{ name }}
     </div>
 
-    <button class="copy-btn" id="copyBtn" onclick="copyName()">
-        Copy Name
-    </button>
-
     <button class="change-btn" onclick="changeName()">
         Change Name
     </button>
 
-    <div class="status" id="status"></div>
-
 </div>
 
 <script>
-
-async function copyName(){
-
-    const name = document.getElementById("name").innerText;
-
-    try{
-
-        await navigator.clipboard.writeText(name);
-
-        const btn = document.getElementById("copyBtn");
-        const status = document.getElementById("status");
-
-        btn.innerText = "Copied ✓";
-        status.innerText = "Copied to clipboard";
-
-        setTimeout(()=>{
-            btn.innerText = "Copy Name";
-            status.innerText = "";
-        },1500);
-
-    }catch(err){
-        console.log(err);
-    }
-}
 
 async function changeName(){
 
@@ -174,6 +126,8 @@ async function changeName(){
         const data = await response.json();
 
         document.getElementById("name").innerText = data.name;
+
+        await navigator.clipboard.writeText(data.name);
 
     }catch(err){
         console.log(err);
@@ -201,4 +155,3 @@ def home():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
-
