@@ -1,1 +1,1 @@
-web: gunicorn insta:app
+web: gunicorn main:app
